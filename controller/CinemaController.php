@@ -6,7 +6,6 @@ use Model\Connect;
 
 class CinemaController
 {
-
     // Accueil
     public function accueil()
     {
@@ -59,6 +58,7 @@ class CinemaController
         WHERE film.id_film = :id
          ");
         $requeteDetailFilm->execute(["id" => $id]);
+
         // AFFICHE LE GENRE D'UN FILM
         $requeteDetailGenre = $pdo->prepare("
         SELECT 
@@ -176,7 +176,7 @@ class CinemaController
     // ------------ AJOUT --------------------------------------
 
     // AJOUT GENRE
-    public function ajoutGenre()
+    public function addGenre()
     {
         if (isset($_POST['submit'])) {
             $pdo = connect::seConnecter();

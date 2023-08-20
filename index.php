@@ -59,8 +59,8 @@ if (isset($_GET["action"])) {
             // ------------------------- AJOUT -------------------------- //
 
             // Ajout genre
-        case "ajoutGenre":
-            $ctrlCinema->ajoutGenre();
+        case "addGenre":
+            $ctrlCinema->addGenre();
             break;
 
             // Ajout réalisateur
