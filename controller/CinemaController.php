@@ -187,30 +187,32 @@ class CinemaController
             header("Location:index.php?action=listGenre&id=" . $newId);
             die;
         }
-        require "view/ajoutGenre.php";
+        require "view/addGenre.php";
     }
 
     // AJOUT REALISATEUR
     public function addRea()
     {
-        $pdo = connect::seConnecter();
-        $requeteAddRea1 = $pdo->prepare("INSERT INTO personne (nom, prenom, sexe, dateNaissance, photoAR, biographie)
-        VALUES (:nomRea, :prenomRea, :sexeRea, :bdayRea, :photoRea, :bioRea)");
-        $requeteAddRea2 = $pdo->prepare("INSERT INTO realisateur (id_personne)
-        SELECT id_personne FROM personne WHERE personne.nom = :nomRea AND personne.prenom = :prenomRea");
-        $requeteAddRea1->execute([
-            'nomRea' => $_POST['nomRea'],
-            'prenomRea' => $_POST['prenomRea'],
-            'sexeRea' => $_POST['sexeRea'],
-            'bdayRea' => $_POST['bdayRea'],
-            'photoRea' => $_POST['photoRea'],
-            'bioRea' => $_POST['bioRea']
-        ]);
-        $newId = $pdo->lastInsertId();
-        $requeteAddRea2->execute(
-            ['prenomRea' => $_POST['prenomRea']]
-        );
-        require "view/addRea.php";
-        header("Location:index.php?action=addRea&id=" . $newId);
+        if (isset($_POST['submit'])) {
+            $pdo = connect::seConnecter();
+            $requeteAddRea1 = $pdo->prepare("INSERT INTO personne (nom, prenom, sexe, dateNaissance, photoAR, biographie)
+            VALUES (:nomRea, :prenomRea, :sexeRea, :bdayRea, :photoRea, :bioRea)");
+            $requeteAddRea2 = $pdo->prepare("INSERT INTO realisateur (id_personne)
+            SELECT id_personne FROM personne WHERE personne.nom = :nomRea AND personne.prenom = :prenomRea");
+            $requeteAddRea1->execute([
+                'nomRea' => $_POST['nomRea'],
+                'prenomRea' => $_POST['prenomRea'],
+                'sexeRea' => $_POST['sexeRea'],
+                'bdayRea' => $_POST['bdayRea'],
+                'photoRea' => $_POST['photoRea'],
+                'bioRea' => $_POST['bioRea']
+            ]);
+            $newId = $pdo->lastInsertId();
+            $requeteAddRea2->execute(
+                ['prenomRea' => $_POST['prenomRea']]
+            );
+            header("Location:index.php?action=addRea");
+            require "view/addRea.php";
+        }
     }
 }
