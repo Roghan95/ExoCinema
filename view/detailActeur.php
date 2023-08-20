@@ -2,19 +2,20 @@
 ob_start();
 ?>
 
-<h1>Biographie de l'acteur</h1>
+<main>
+    <h1>Biographie de l'acteur</h1>
 
-<?php
-$acteur = $requeteActeur->fetch() ?>
+    <?php
+    $acteur = $requeteActeur->fetch() ?>
 
-<img src="<?= $acteur["photoAR"] ?>" alt="">
-<p><?= $acteur["nomPrenom"] ?></p>
-<p> Né(e) le : <?= $acteur["bday"] ?></p>
-<p class="synopsis">Biographie :
-<p>
-<p><?= $acteur["biographie"] ?></p>
+    <img src="<?= $acteur["photoAR"] ?>" alt="">
+    <p><?= $acteur["nomPrenom"] ?></p>
+    <p> Né(e) le : <?= $acteur["bday"] ?></p>
+    <p class="synopsis">Biographie :
+    <p>
+    <p><?= $acteur["biographie"] ?></p>
 
-
+</main>
 
 
 <?php

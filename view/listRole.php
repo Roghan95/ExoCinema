@@ -2,11 +2,13 @@
 ob_start();
 ?>
 
-<?php
-foreach ($requeteListRole as $role) { ?>
-    <a href="index.php?action=detailRole&id=<?= $role["id_role"] ?>"> <?php echo $role["personnage"]; ?> <br></a>
-<?php } ?>
+<main>
 
+    <?php
+    foreach ($requeteListRole as $role) { ?>
+        <a href="index.php?action=detailRole&id=<?= $role["id_role"] ?>"> <?php echo $role["personnage"]; ?> <br></a>
+    <?php } ?>
+</main>
 
 <?php
 $titre = "Liste des rôles";

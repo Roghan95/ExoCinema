@@ -2,12 +2,13 @@
 ob_start();
 ?>
 
-<form action="index.php?action=ajoutGenre" method="post">
-    <label for="nomGenre">Nom genre : </label>
-    <input id="genre" name="nomGenre" required />
-    <input type="submit" name="submit">
-</form>
-
+<main>
+    <form action="index.php?action=ajoutGenre" method="post">
+        <label for="nomGenre">Nom genre : </label>
+        <input id="genre" name="nomGenre" required />
+        <input type="submit" name="submit">
+    </form>
+</main>
 
 <?php
 $titre = "Ajouter un genre";

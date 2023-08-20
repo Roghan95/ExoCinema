@@ -2,11 +2,12 @@
 ob_start();
 ?>
 
-<?php
-foreach ($requeteRealisateur->fetchAll() as $realisateur) { ?>
-    <a href="index.php?action=detailRealisateur&id=<?= $realisateur["id_realisateur"] ?>"><?= $realisateur["nomPrenom"] ?><br></a>
-<?php } ?>
-
+<main>
+    <?php
+    foreach ($requeteRealisateur->fetchAll() as $realisateur) { ?>
+        <a href="index.php?action=detailRealisateur&id=<?= $realisateur["id_realisateur"] ?>"><?= $realisateur["nomPrenom"] ?><br></a>
+    <?php } ?>
+</main>
 
 <?php
 $titre = "Liste des realisateur";

@@ -34,7 +34,7 @@
             </div>
             <!-- Liste des liens du menu burger -->
             <ul>
-                <li><a href="index.php?action=listTop5">Accueil</a></li>
+                <li><a href="index.php?action=accueil">Accueil</a></li>
                 <li><a href="index.php?action=listFilms">Films</a></li>
                 <li><a href="index.php?action=listRole">Roles</a></li>
                 <li><a href="index.php?action=listActeurs">Acteurs</a></li>

@@ -7,6 +7,17 @@ use Model\Connect;
 class CinemaController
 {
 
+    // Accueil
+    public function accueil()
+    {
+        $pdo = Connect::seConnecter();
+        $requete = $pdo->query("SELECT titre, YEAR(dateSortie) AS annee, CONCAT(FLOOR(duree / 60), 'h', LPAD(MOD(duree, 60), 2, '0')) AS duree, noteFilm, id_film, afficheFilm
+            FROM film
+            ORDER BY YEAR(dateSortie) DESC
+            LIMIT 4");
+        require "view/accueil.php";
+    }
+
     // LISTE FILMS
     public function listFilms()
     {

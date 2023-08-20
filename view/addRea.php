@@ -2,6 +2,10 @@
 ob_start();
 ?>
 
+<main>
+    
+</main>
+
 <?php
 $titre = "Ajout réalisateur";
 $titreSecondaire = "Ajout réalisateur";
