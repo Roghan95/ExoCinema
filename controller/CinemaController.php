@@ -14,7 +14,7 @@ class CinemaController
         $requete = $pdo->query("SELECT titre, YEAR(dateSortie) AS annee, CONCAT(FLOOR(duree / 60), 'h', LPAD(MOD(duree, 60), 2, '0')) AS duree, noteFilm, id_film, afficheFilm
             FROM film
             ORDER BY YEAR(dateSortie) DESC
-            LIMIT 4");
+            LIMIT 3");
         require "view/accueil.php";
     }
 
