@@ -36,12 +36,15 @@
             <ul>
                 <li><a href="index.php?action=accueil">Accueil</a></li>
                 <li><a href="index.php?action=listFilms">Films</a></li>
-                <li><a href="index.php?action=listRole">Roles</a></li>
+                <li><a href="index.php?action=listRole">Rôles</a></li>
                 <li><a href="index.php?action=listActeurs">Acteurs</a></li>
                 <li><a href="index.php?action=listGenre">Genres</a></li>
-                <li><a href="index.php?action=listRealisateur">Realisateurs</a></li>
-                <li><a href="index.php?action=addGenre">Ajouter genre</a></li>
-                <li><a href="index.php?action=">Ajouter Film</a></li>
+                <li><a href="index.php?action=listRealisateur">Réalisateurs</a></li>
+                <li><a href="index.php?action=addGenre">Ajouter un genre</a></li>
+                <li><a href="index.php?action=addRole">Ajouter un rôle</a></li>
+                <li><a href="index.php?action=addRea">Ajouter un réalisateur</a></li>
+                <li><a href="index.php?action=addActeur">Ajouter un acteur</a></li>
+                <li><a href="index.php?action=addFilm">Ajouter Film</a></li>
             </ul>
         </nav>
         <!-- Fond obscure lorsque le menu burger est ouvert -->
@@ -50,5 +53,4 @@
     <?= $content ?>
 
 </body>
-
 </html>

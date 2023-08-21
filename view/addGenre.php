@@ -3,7 +3,8 @@ ob_start();
 ?>
 
 <main>
-    <form action="index.php?action=addGenre" method="post">
+    <h1>Ajouter un genre</h1>
+    <form class="addform" action="index.php?action=addGenre" method="post">
         <label for="nomGenre">Nom genre : </label>
         <input id="genre" name="nomGenre" required />
         <input type="submit" name="submit">

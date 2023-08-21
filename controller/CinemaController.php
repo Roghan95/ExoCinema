@@ -178,41 +178,103 @@ class CinemaController
     // AJOUT GENRE
     public function addGenre()
     {
+        $nomGenre = filter_input(INPUT_POST, 'nomGenre', FILTER_SANITIZE_SPECIAL_CHARS);
         if (isset($_POST['submit'])) {
             $pdo = connect::seConnecter();
             $requeteAjoutGenre = $pdo->prepare("INSERT INTO genre (nom)
             VALUES (:nomGenre)");
-            $requeteAjoutGenre->execute(['nomGenre' => $_POST['nomGenre']]);
+            $requeteAjoutGenre->execute(['nomGenre' => $nomGenre]);
             $newId = $pdo->lastInsertId();
             header("Location:index.php?action=listGenre&id=" . $newId);
-            die;
+            die;       
         }
-        require "view/addGenre.php";
+        require 'view/addGenre.php';
+    }
+
+    // AJOUT ROLE
+    public function addRole() {
+        $nomRole = filter_input(INPUT_POST, 'nomRole', FILTER_SANITIZE_SPECIAL_CHARS);
+
+        if(isset($_POST['submit'])) {
+            $pdo = connect::seConnecter();
+            $requeteAddRole = $pdo->prepare("INSERT INTO role (personnage)
+            VALUES (:nomRole)");
+            $requeteAddRole->execute(['nomRole' => $nomRole]);
+            $newId = $pdo->lastInsertId();
+            header("Location:index.php?action=listRole&id=" . $newId);
+
+        }
+        require 'view/addRole.php';
     }
 
     // AJOUT REALISATEUR
     public function addRea()
     {
+        $nomRea = filter_input(INPUT_POST, 'nomRea', FILTER_SANITIZE_SPECIAL_CHARS);
+        $prenomRea = filter_input(INPUT_POST, 'prenomRea', FILTER_SANITIZE_SPECIAL_CHARS);
+        $sexeRea = filter_input(INPUT_POST, 'sexeRea', FILTER_SANITIZE_SPECIAL_CHARS);
+        $bdayRea = filter_input(INPUT_POST, 'bdayRea', FILTER_SANITIZE_SPECIAL_CHARS);
+        $photoRea = filter_input(INPUT_POST, 'photoRea', FILTER_SANITIZE_SPECIAL_CHARS);
+        $bioRea = filter_input(INPUT_POST, 'bioRea', FILTER_SANITIZE_SPECIAL_CHARS);
+        
         if (isset($_POST['submit'])) {
             $pdo = connect::seConnecter();
             $requeteAddRea1 = $pdo->prepare("INSERT INTO personne (nom, prenom, sexe, dateNaissance, photoAR, biographie)
             VALUES (:nomRea, :prenomRea, :sexeRea, :bdayRea, :photoRea, :bioRea)");
-            $requeteAddRea2 = $pdo->prepare("INSERT INTO realisateur (id_personne)
-            SELECT id_personne FROM personne WHERE personne.nom = :nomRea AND personne.prenom = :prenomRea");
             $requeteAddRea1->execute([
-                'nomRea' => $_POST['nomRea'],
-                'prenomRea' => $_POST['prenomRea'],
-                'sexeRea' => $_POST['sexeRea'],
-                'bdayRea' => $_POST['bdayRea'],
-                'photoRea' => $_POST['photoRea'],
-                'bioRea' => $_POST['bioRea']
+                'nomRea' => $nomRea,
+                'prenomRea' => $prenomRea,
+                'sexeRea' => $sexeRea,
+                'bdayRea' => $bdayRea,
+                'photoRea' => $photoRea,
+                'bioRea' => $bioRea
             ]);
-            $newId = $pdo->lastInsertId();
-            $requeteAddRea2->execute(
-                ['prenomRea' => $_POST['prenomRea']]
-            );
-            header("Location:index.php?action=addRea");
-            require "view/addRea.php";
+            $newIdPersonne = $pdo->lastInsertId();
+
+            $requeteAddRea2 = $pdo->prepare("INSERT INTO realisateur (id_personne)
+            VALUES (:idPersonne)");
+            $requeteAddRea2->execute([
+                'idPersonne' => $newIdPersonne
+                ]);
+        header("Location:index.php?action=listRealisateur&id=" . $newIdPersonne);
         }
+        require "view/addRea.php";
     }
+
+    // AJOUT ACTEUR
+    public function addActeur() 
+    {
+        $nomActeur = filter_input(INPUT_POST, 'nomActeur', FILTER_SANITIZE_SPECIAL_CHARS);
+        $prenomActeur = filter_input(INPUT_POST, 'prenomActeur', FILTER_SANITIZE_SPECIAL_CHARS);
+        $sexeActeur = filter_input(INPUT_POST, 'sexeActeur', FILTER_SANITIZE_SPECIAL_CHARS);
+        $bdayActeur = filter_input(INPUT_POST, 'bdayActeur', FILTER_SANITIZE_SPECIAL_CHARS);
+        $photoActeur = filter_input(INPUT_POST, 'photoActeur', FILTER_SANITIZE_SPECIAL_CHARS);
+        $bioActeur = filter_input(INPUT_POST, 'bioActeur', FILTER_SANITIZE_SPECIAL_CHARS);
+
+        if(isset($_POST['submit'])) {
+            $pdo = connect::seConnecter();
+            $requeteAddActeur = $pdo->prepare("INSERT INTO personne (nom, prenom, sexe, dateNaissance, photoAR, biographie)
+            VALUES (:nomActeur, :prenomActeur, :sexeActeur, :bdayActeur, :photoActeur, :bioActeur)");
+            $requeteAddActeur->execute([
+                'nomActeur' => $nomActeur,
+                'prenomActeur' => $prenomActeur,
+                'sexeActeur' => $sexeActeur,
+                'bdayActeur' => $bdayActeur,
+                'photoActeur' => $photoActeur,
+                'bioActeur' => $bioActeur
+            ]);
+            $newIdPersonne = $pdo->lastInsertId();
+
+            $requeteAddActeur2 = $pdo->prepare("INSERT INTO acteur (id_personne)
+            VALUES (:idPersonne)");
+            $requeteAddActeur2->execute([
+                'idPersonne' => $newIdPersonne
+            ]);
+            header("Location:index.php?action=listActeurs&id=" . $newIdPersonne);
+
+        }
+        require "view/addActeur.php";
+    }
+
+    
 }
