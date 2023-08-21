@@ -54,15 +54,13 @@ CREATE TABLE IF NOT EXISTS `film` (
   CONSTRAINT `film_ibfk_1` FOREIGN KEY (`id_realisateur`) REFERENCES `realisateur` (`id_realisateur`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 
--- Listage des données de la table cinema.film : ~7 rows (environ)
+-- Listage des données de la table cinema.film : ~5 rows (environ)
 INSERT INTO `film` (`id_film`, `titre`, `dateSortie`, `duree`, `synopsis`, `id_realisateur`, `noteFilm`, `afficheFilm`) VALUES
 	(1, 'Oppenheimer', '2023-07-19', 181, 'Pendant la Seconde Guerre mondiale, le lieutenant-général Leslie Groves Jr. nomme le physicien J. Robert Oppenheimer pour travailler sur le projet ultra-secret Manhattan. Oppenheimer et une équipe de scientifiques passent des années à développer et à concevoir la bombe atomique.', 1, 5, 'public\\img\\oppenheimer.jpg'),
 	(2, 'Barbie', '2023-07-19', 114, 'Barbie, qui vit à Barbie Land, est expulsée du pays pour être loin d\'être une poupée à l\'apparence parfaite; n\'ayant nulle part où aller, elle part pour le monde humain et cherche le vrai bonheur.', 3, 5, 'public\\img\\barbie.webp'),
 	(3, 'The Dark Knight, Le Chevalier noir', '2023-08-13', 152, 'Batman est plus que jamais déterminé à éradiquer le crime organisé qui sème la terreur en ville.', 1, 5, 'public\\img\\batman.jpg'),
 	(4, 'En eaux très troubles', '2023-08-02', 116, 'Cet été, préparez-vous à une décharge d’adrénaline avec EN EAUX TRÈS TROUBLES ! Film d’action survolté, ce deuxième opus plus gigantesque encore que le blockbuster de 2018 plonge le spectateur dans des eaux toujours plus profondes, où grouillent de redoutables megalodons, et bien plus…', 1, 5, 'public\\img\\troubles.jpg'),
-	(5, 'Hypnotic', '2023-08-23', 94, 'Déterminé à retrouver sa fille, le détective Danny Rourke, enquête sur une série de braquages qui pourraient être liés à sa disparition', 7, 5, 'public\\img\\hypnotic.jpg'),
-	(6, 'Need For Speed', '2023-08-03', 40, 'test', 6, 3, '64e2408b5f6b82.06327647.jpg'),
-	(7, 'Need For Speed 5', '2023-08-03', 120, 'test', 6, 3, '64e240d8b9d1d3.35953817.jpg');
+	(5, 'Hypnotic', '2023-08-23', 94, 'Déterminé à retrouver sa fille, le détective Danny Rourke, enquête sur une série de braquages qui pourraient être liés à sa disparition', 7, 5, 'public\\img\\hypnotic.jpg');
 
 -- Listage de la structure de table cinema. genre
 CREATE TABLE IF NOT EXISTS `genre` (
@@ -180,15 +178,14 @@ CREATE TABLE IF NOT EXISTS `role` (
   PRIMARY KEY (`id_role`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 
--- Listage des données de la table cinema.role : ~7 rows (environ)
+-- Listage des données de la table cinema.role : ~6 rows (environ)
 INSERT INTO `role` (`id_role`, `personnage`) VALUES
 	(1, 'Batman'),
 	(2, 'Barbie'),
 	(3, 'J. Robert Oppenheimer'),
 	(4, 'Jean Tatlock'),
 	(5, 'Danny Rourke'),
-	(6, 'Jason Statham'),
-	(7, 'Romance');
+	(6, 'Jason Statham');
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
