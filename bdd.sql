@@ -26,15 +26,18 @@ CREATE TABLE IF NOT EXISTS `acteur` (
   PRIMARY KEY (`id_acteur`),
   UNIQUE KEY `id_personne` (`id_personne`),
   CONSTRAINT `acteur_ibfk_1` FOREIGN KEY (`id_personne`) REFERENCES `personne` (`id_personne`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1;
 
--- Listage des données de la table cinema.acteur : ~5 rows (environ)
+-- Listage des données de la table cinema.acteur : ~8 rows (environ)
 INSERT INTO `acteur` (`id_acteur`, `id_personne`) VALUES
-	(13, 14),
-	(11, 15),
-	(12, 16),
-	(14, 19),
-	(15, 30);
+	(4, 4),
+	(2, 6),
+	(7, 7),
+	(5, 8),
+	(6, 9),
+	(8, 11),
+	(9, 12),
+	(11, 24);
 
 -- Listage de la structure de table cinema. film
 CREATE TABLE IF NOT EXISTS `film` (
@@ -51,26 +54,35 @@ CREATE TABLE IF NOT EXISTS `film` (
   CONSTRAINT `film_ibfk_1` FOREIGN KEY (`id_realisateur`) REFERENCES `realisateur` (`id_realisateur`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 
--- Listage des données de la table cinema.film : ~2 rows (environ)
+-- Listage des données de la table cinema.film : ~7 rows (environ)
 INSERT INTO `film` (`id_film`, `titre`, `dateSortie`, `duree`, `synopsis`, `id_realisateur`, `noteFilm`, `afficheFilm`) VALUES
-	(6, 'En eaux très troubles', '2023-08-02', 116, 'Cet été, préparez-vous à une décharge d’adrénaline avec EN EAUX TRÈS TROUBLES ! Film d’action survolté, ce deuxième opus plus gigantesque encore que le blockbuster de 2018 plonge le spectateur dans des eaux toujours plus profondes, où grouillent de redoutables megalodons, et bien plus…', 9, 5, 'public\\img\\troubles.jpg'),
-	(7, 'Oppenheimer', '2023-07-19', 181, 'En 1942, convaincus que l’Allemagne nazie est en train de développer une arme nucléaire, les États-Unis initient, dans le plus grand secret, le "Projet Manhattan" destiné à mettre au point la première bombe atomique de l’histoire. Pour piloter ce dispositif, le gouvernement engage J. Robert Oppenheimer, brillant physicien, qui sera bientôt surnommé "le père de la bombe atomique". C’est dans le laboratoire ultra-secret de Los Alamos, au cœur du désert du Nouveau-Mexique, que le scientifique et son équipe mettent au point une arme révolutionnaire dont les conséquences, vertigineuses, continuent de peser sur le monde actuel… ', 8, 5, 'public\\img\\oppenheimer.jpg');
+	(1, 'Oppenheimer', '2023-07-19', 181, 'Pendant la Seconde Guerre mondiale, le lieutenant-général Leslie Groves Jr. nomme le physicien J. Robert Oppenheimer pour travailler sur le projet ultra-secret Manhattan. Oppenheimer et une équipe de scientifiques passent des années à développer et à concevoir la bombe atomique.', 1, 5, 'public\\img\\oppenheimer.jpg'),
+	(2, 'Barbie', '2023-07-19', 114, 'Barbie, qui vit à Barbie Land, est expulsée du pays pour être loin d\'être une poupée à l\'apparence parfaite; n\'ayant nulle part où aller, elle part pour le monde humain et cherche le vrai bonheur.', 3, 5, 'public\\img\\barbie.webp'),
+	(3, 'The Dark Knight, Le Chevalier noir', '2023-08-13', 152, 'Batman est plus que jamais déterminé à éradiquer le crime organisé qui sème la terreur en ville.', 1, 5, 'public\\img\\batman.jpg'),
+	(4, 'En eaux très troubles', '2023-08-02', 116, 'Cet été, préparez-vous à une décharge d’adrénaline avec EN EAUX TRÈS TROUBLES ! Film d’action survolté, ce deuxième opus plus gigantesque encore que le blockbuster de 2018 plonge le spectateur dans des eaux toujours plus profondes, où grouillent de redoutables megalodons, et bien plus…', 1, 5, 'public\\img\\troubles.jpg'),
+	(5, 'Hypnotic', '2023-08-23', 94, 'Déterminé à retrouver sa fille, le détective Danny Rourke, enquête sur une série de braquages qui pourraient être liés à sa disparition', 7, 5, 'public\\img\\hypnotic.jpg'),
+	(6, 'Need For Speed', '2023-08-03', 40, 'test', 6, 3, '64e2408b5f6b82.06327647.jpg'),
+	(7, 'Need For Speed 5', '2023-08-03', 120, 'test', 6, 3, '64e240d8b9d1d3.35953817.jpg');
 
 -- Listage de la structure de table cinema. genre
 CREATE TABLE IF NOT EXISTS `genre` (
   `id_genre` int NOT NULL AUTO_INCREMENT,
   `nom` varchar(50) NOT NULL,
   PRIMARY KEY (`id_genre`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=latin1;
 
--- Listage des données de la table cinema.genre : ~6 rows (environ)
+-- Listage des données de la table cinema.genre : ~10 rows (environ)
 INSERT INTO `genre` (`id_genre`, `nom`) VALUES
-	(11, 'Biopic'),
-	(12, 'Historique'),
-	(13, 'Thriller'),
-	(14, 'Action'),
-	(15, 'Aventure'),
-	(16, 'Sci-Fi');
+	(1, 'Fiction historique'),
+	(2, 'Comédie'),
+	(3, 'Action'),
+	(4, 'Science Fiction'),
+	(5, 'Thriller'),
+	(6, 'Drame'),
+	(7, 'Fantastique'),
+	(8, 'Biopic'),
+	(9, 'Historique'),
+	(17, '');
 
 -- Listage de la structure de table cinema. genrer
 CREATE TABLE IF NOT EXISTS `genrer` (
@@ -82,13 +94,18 @@ CREATE TABLE IF NOT EXISTS `genrer` (
   CONSTRAINT `genrer_ibfk_2` FOREIGN KEY (`id_genre`) REFERENCES `genre` (`id_genre`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Listage des données de la table cinema.genrer : ~5 rows (environ)
+-- Listage des données de la table cinema.genrer : ~10 rows (environ)
 INSERT INTO `genrer` (`id_film`, `id_genre`) VALUES
-	(7, 11),
-	(7, 12),
-	(6, 13),
-	(7, 13),
-	(6, 14);
+	(1, 1),
+	(2, 2),
+	(3, 3),
+	(4, 3),
+	(5, 3),
+	(6, 3),
+	(7, 3),
+	(1, 5),
+	(3, 5),
+	(4, 5);
 
 -- Listage de la structure de table cinema. jouer
 CREATE TABLE IF NOT EXISTS `jouer` (
@@ -103,12 +120,14 @@ CREATE TABLE IF NOT EXISTS `jouer` (
   CONSTRAINT `jouer_ibfk_3` FOREIGN KEY (`id_role`) REFERENCES `role` (`id_role`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Listage des données de la table cinema.jouer : ~4 rows (environ)
+-- Listage des données de la table cinema.jouer : ~6 rows (environ)
 INSERT INTO `jouer` (`id_acteur`, `id_film`, `id_role`) VALUES
-	(12, 6, 7),
-	(14, 6, 8),
-	(11, 7, 10),
-	(13, 7, 9);
+	(2, 1, 3),
+	(7, 1, 4),
+	(4, 2, 2),
+	(6, 3, 1),
+	(8, 4, 6),
+	(9, 5, 5);
 
 -- Listage de la structure de table cinema. personne
 CREATE TABLE IF NOT EXISTS `personne` (
@@ -120,27 +139,20 @@ CREATE TABLE IF NOT EXISTS `personne` (
   `photoAR` varchar(255) DEFAULT NULL,
   `biographie` text,
   PRIMARY KEY (`id_personne`)
-) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=latin1;
 
--- Listage des données de la table cinema.personne : ~17 rows (environ)
+-- Listage des données de la table cinema.personne : ~10 rows (environ)
 INSERT INTO `personne` (`id_personne`, `nom`, `prenom`, `sexe`, `dateNaissance`, `photoAR`, `biographie`) VALUES
-	(14, 'Murphy', 'Cillian', 'H', '1976-05-25', 'public\\img\\CillianMurphy.jpg', 'Cillian Murphy est né d\'une mère professeur de français et d\'un père travaillant pour le ministère irlandais de l\'Éducation. C\'est au théâtre qu\'il se fait d\'abord connaître, notamment avec une prestation dans la pièce Disco Pigs, mais également dans Beaucoup de bruit pour rien et The Shape of things, mise en scène par Neil LaBute.'),
-	(15, 'Florence', 'Pugh', 'F', '2023-08-21', 'public\\img\\FlorencePugh.jpg', 'Née en Angleterre, c\'est pourtant en Andalousie que grandit Florence Pugh. De retour avec sa famille à Oxford lorsqu\'elle avait 11 ans, elle commence la comédie dans les pièces de théâtre de son école. Elle fait ses débuts en 2014 aux côtés de Maisie Williams dans le drame The Falling. Son talent lui permet d\'être vite repérée : trois ans plus tard, elle tient le premier rôle de The Young Lady.'),
-	(16, 'Jason', 'Statham', 'H', '1967-07-26', 'public\\img\\JasonStatham.jpg', 'Tour à tour plongeur olympique, mannequin et vendeur de bijoux au noir, Jason Statham est repéré, au détour d\'une promenade à Londres, par le réalisateur Guy Ritchie qui l\'engage pour son premier film, Arnaques, crimes et botanique, en 1998.'),
-	(17, 'Wheatley', 'Ben', 'H', '1972-05-01', 'public\\img\\BenWheatley.jpg', 'Après avoir réalisé de nombreuses publicités et vidéos virales, Ben Wheatley signe la comédie Down Terrace. Il gagne en notoriété en 2012 lorsque sort son second long, Kill List. Il s\'agit d\'un thriller horrifique noir et hypnotique dans lequel deux anciens soldats devenus tueurs à gages se lancent dans un périple meurtrier les conduisant vers un final des plus terrifiants.'),
-	(18, 'Nolan', 'Christopher', 'H', '1970-07-30', 'public\\img\\ChristopherNolan.webp', 'Né d\'un père anglais et d\'une mère américaine, Christopher Nolan a commencé dès son plus jeune âge à réaliser des films avec la caméra 8mm de son père, et ce malgré son daltonisme. Son court métrage en 8mm, Tarantella, est diffusé aux États-Unis sur la chaîne PBS alors qu\'il est encore étudiant en lettres à l\'Université de Londres.'),
-	(19, 'Wu', 'Jing', 'H', '1974-04-03', 'public\\img\\JingWu.jpg', 'Tour à tour plongeur olympique, mannequin et vendeur de bijoux au noir, Jason Statham est repéré, au détour d\'une promenade à Londres, par le réalisateur Guy Ritchie qui l\'engage pour son premier film, Arnaques, crimes et botanique, en 1998.'),
-	(20, 'test', 'test', 'h', '2023-08-23', 'public\\img\\JingWu.jpg', 'test'),
-	(21, 'test', 'test', 'h', '2023-08-23', 'public\\img\\JingWu.jpg', 'test'),
-	(22, 'test', 'test', 'h', '2023-08-23', 'public\\img\\JingWu.jpg', 'test'),
-	(23, 'test', 'test', 'h', '2023-08-23', 'public\\img\\JingWu.jpg', 'test'),
-	(24, 'test', 'test', 'h', '2023-08-23', 'public\\img\\JingWu.jpg', 'test'),
-	(25, 'test', 'test', 'h', '2023-08-23', 'public\\img\\JingWu.jpg', 'test'),
-	(26, 'test', 'test', 'h', '2023-08-24', 'public\\img\\JingWu.jpg', 'test'),
-	(27, 'test', 'test', 'h', '2023-08-24', 'public\\img\\JingWu.jpg', 'test'),
-	(28, 'test', 'test', 'h', '2023-08-24', 'public\\img\\JingWu.jpg', 'test'),
-	(29, 'test', 'test', 'h', '2023-08-24', 'https://i.mydramalist.com/Y3KWPc.jpg', 'test'),
-	(30, 'test', 'test', 'f', '2023-08-18', 'https://imgsrc.cineserie.com/2023/06/461469.jpg?ver=1', 'test');
+	(4, 'Robbie', 'Margot', 'F', '1990-07-02', 'public\\img\\MargotRobbie.webp', 'Surnommée la « nouvelle reine d\'Hollywood »2 et sex-symbol de la Génération Z, elle se fait d’abord connaître en Australie en 2008 en décrochant un rôle régulier dans le soap opera à succès Les Voisins, rôle qu\'elle tiendra quatre ans et qui lui permettra de décrocher deux nominations aux Logie Awards. Elle s\'exporte ensuite à Hollywood, où elle devient l\'un des personnages centraux de la mini-série historique Pan Am. '),
+	(5, 'Christopher', 'Nolan', 'M', '1970-07-30', 'public\\img\\ChristopherNolan.webp', 'Ses films ont rapporté plus de 5 milliards de dollars dans le monde et ont obtenu onze Oscars sur trente-six nominations. Lauréat de nombreux prix et distinctions, il a été nommé pour cinq Oscars, cinq British Academy Film Awards et six Golden Globes. En 2015, Time le désigne comme l\'une des cent personnes les plus influentes dans le monde, tandis qu\'en 2019, il est nommé à l\'ordre de l\'Empire britannique par la reine Élisabeth II pour services rendus aux arts cinématographiques. '),
+	(6, 'Murphy', 'Cillian', 'M', '1976-05-25', 'public\\img\\CillianMurphy.jpg', 'Il a commencé sa carrière en tant que musicien de rock. Il a ensuite joué d\'abord au théâtre puis dans des courts métrages et des films indépendants à la fin des années 1990. Il se fait connaître dans plusieurs films tels que 28 Jours plus tard (2002), Retour à Cold Mountain (2003), Intermission (2003), Red Eye : Sous haute pression (2005) et Breakfast on Pluto (2005), pour lesquels il est nommé pour un Golden Globes du meilleur acteur dans une comédie musicale ou une comédie en 2006.'),
+	(7, 'Florence', 'Pugh', 'F', '1996-01-03', 'public\\img\\FlorencePugh.jpg', 'Après avoir fait ses débuts dans le drame The Falling, Florence Pugh se fait connaître en 2016 grâce à son rôle principal dans The Young Lady, qui lui permet de remporter le prix de la meilleure actrice aux British Independent Film Awards. En 2018, elle est à l\'affiche de la mini-série télévisée The Little Drummer Girl. '),
+	(8, 'Gerwig', 'Greta', 'F', '1983-08-04', 'public\\img\\GretaGerwig.webp', 'Principalement connue pour sa participation dans le mouvement cinématographique mumblecore, elle est révélée en 2010 avec le rôle de Florence Marr dans le long-métrage indépendant Greenberg, réalisé par Noah Baumbach. Elle fait ses débuts dans le cinéma grand public avec Sex Friends et Arthur, un amour de milliardaire, l\'année suivante, avant de tourner sous la direction de Woody Allen dans To Rome with Love. En 2013, elle tient le rôle-titre dans la comédie dramatique Frances Ha, dont elle a écrit le scénario avec le réalisateur, qui rencontre un large accueil favorable auprès de la critique, ce qui lui permet d\'être nommée au Golden Globe de la meilleure actrice dans un film musical ou une comédie en 2014. '),
+	(9, 'Bale', 'Christian', 'M', '1974-01-30', 'public\\img\\ChristianBale.webp', 'Il attire l\'attention du public dès l\'âge de 13 ans, lorsqu\'il obtient le rôle principal du film Empire du soleil (1987) de Steven Spielberg, tiré du roman du même nom de J. G. Ballard. Il y joue un jeune garçon anglais, séparé de ses parents pendant la Seconde Guerre mondiale et qui découvre la vie dans un camp d\'internement japonais. En 2000, il reçoit des critiques élogieuses pour son interprétation du tueur en série Patrick Bateman dans American Psycho. Adepte de la « Méthode », il perd 28 kilos en 2003 pour tenir le rôle de Trevor Reznik dans The Machinist, avant de reprendre 45 kilos six mois plus tard afin de tenir le rôle titre dans Batman Begins. Sa capacité à assurer de telles transformations physiques lui vaut d\'être l\'un des acteurs les plus demandés de sa génération. '),
+	(10, 'Wheatley', 'Ben', 'M', '1972-05-01', 'public\\img\\BenWheatley.jpg', 'Avant de commencer sa carrière au cinéma avec Down Terrace et surtout Kill List qui l\'a révélé, Wheatley a réalisé une centaine de publicités et de vidéos virales. Il collabore régulièrement avec sa femme Amy Jump pour l\'écriture des scénarios2. '),
+	(11, 'Statham', 'Jason', 'M', '1967-07-26', 'public\\img\\JasonStatham.jpg', 'Il est surtout renommé pour son rôle de Frank Martin dans les trois premiers films de la saga d\'action Le Transporteur, mais également pour ses collaborations avec Guy Ritchie (Snatch) ou Sylvester Stallone (dans la série de films Expendables), ainsi que pour plusieurs films de la série Fast and Furious. '),
+	(12, 'Affleck', 'Ben', 'M', '1972-08-15', 'public\\img\\BenAffleck.webp', 'Il est révélé en 1997 par Will Hunting, un succès critique et commercial réalisé par Gus Van Sant, et qu\'il a coécrit avec son ami Matt Damon, et où ils remportent l\'Oscar du meilleur scénario original. Il s\'impose parallèlement comme un acteur fétiche du réalisateur indépendant Kevin Smith : Les Glandeurs (1995), Méprise multiple (1997), Dogma (1999), Jay et Bob contre-attaquent (2001), Clerks 2 (2006), Jay and Silent Bob Reboot (2019) et Clerks 3 (2022).'),
+	(13, 'Rodriguez', 'Robert', 'M', '1968-06-20', 'public\\img\\RobertRodriguez.webp', 'Diplômé de l\'université du Texas à Austin, il est connu pour tourner des films à petit budget qui rencontrent souvent un grand succès public et dans lesquels il occupe de nombreux « postes ». Son premier long métrage El Mariachi est ainsi produit pour seulement 7 000 dollars et est présenté dans divers festivals (Toronto, Sundance ou encore la Berlinale 1993). Les critiques sont assez bonnes et le film est remarqué par les grands studios hollywoodiens3. Ce film connaîtra deux suites. Robert Rodriguez développe ensuite des films d\'aventures avec la franchise familiale Spy Kids (2001-2011). ');
 
 -- Listage de la structure de table cinema. realisateur
 CREATE TABLE IF NOT EXISTS `realisateur` (
@@ -149,34 +161,34 @@ CREATE TABLE IF NOT EXISTS `realisateur` (
   PRIMARY KEY (`id_realisateur`),
   UNIQUE KEY `id_personne` (`id_personne`),
   CONSTRAINT `realisateur_ibfk_1` FOREIGN KEY (`id_personne`) REFERENCES `personne` (`id_personne`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
 
 -- Listage des données de la table cinema.realisateur : ~7 rows (environ)
 INSERT INTO `realisateur` (`id_realisateur`, `id_personne`) VALUES
-	(9, 17),
-	(8, 18),
-	(10, 25),
-	(11, 26),
-	(12, 27),
-	(13, 28),
-	(14, 29);
+	(1, 5),
+	(3, 8),
+	(6, 10),
+	(7, 13),
+	(8, 21),
+	(9, 22),
+	(10, 23);
 
 -- Listage de la structure de table cinema. role
 CREATE TABLE IF NOT EXISTS `role` (
   `id_role` int NOT NULL AUTO_INCREMENT,
   `personnage` varchar(255) NOT NULL,
   PRIMARY KEY (`id_role`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 
 -- Listage des données de la table cinema.role : ~7 rows (environ)
 INSERT INTO `role` (`id_role`, `personnage`) VALUES
-	(7, 'Jonas Taylor'),
-	(8, 'Jiuming Zhang'),
-	(9, 'J.Robert Oppenheimer'),
-	(10, 'Jean Tatlock'),
-	(11, 'Danny Rourke'),
-	(12, 'Emily Blunt'),
-	(13, 'Emily Blunt');
+	(1, 'Batman'),
+	(2, 'Barbie'),
+	(3, 'J. Robert Oppenheimer'),
+	(4, 'Jean Tatlock'),
+	(5, 'Danny Rourke'),
+	(6, 'Jason Statham'),
+	(7, 'Romance');
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
