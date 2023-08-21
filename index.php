@@ -75,5 +75,9 @@ if (isset($_GET["action"])) {
         case "addActeur":
             $ctrlCinema->addActeur();
             break;
+        
+        case "addCasting":
+            $ctrlCinema->addCasting();
+            break;
     }
 }

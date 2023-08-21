@@ -15,7 +15,7 @@
     <header>
         <!-- Logo -->
         <div class="logo">
-            <a href="index.php?action=listTop4">
+            <a href="index.php?action=accueil">
                 <div>
                     FLIXGO
                 </div>
@@ -28,7 +28,7 @@
             <!-- Logo du menu burger -->
             <div class="logo_burger">
                 <div>
-                    FLIX<span>GO</span>
+                    FLIX<em>GO</em>
                 </div>
                 <i class="uil uil-times"></i>
             </div>
@@ -44,6 +44,7 @@
                 <li><a href="index.php?action=addRole">Ajouter un rôle</a></li>
                 <li><a href="index.php?action=addRea">Ajouter un réalisateur</a></li>
                 <li><a href="index.php?action=addActeur">Ajouter un acteur</a></li>
+                <li><a href="index.php?action=addCasting">Ajouter un casting</a></li>
                 <li><a href="index.php?action=addFilm">Ajouter Film</a></li>
             </ul>
         </nav>

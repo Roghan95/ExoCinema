@@ -271,10 +271,28 @@ class CinemaController
                 'idPersonne' => $newIdPersonne
             ]);
             header("Location:index.php?action=listActeurs&id=" . $newIdPersonne);
-
         }
         require "view/addActeur.php";
     }
 
-    
+
+    public function addCasting() {
+        $pdo = connect::seConnecter();
+        $requeteAllFilms = $pdo->prepare("SELECT id_film, titre FROM film");
+        $requeteAllFilms->execute();
+        
+        $requeteAllActeurs = $pdo->prepare("SELECT personne.id_personne, acteur.id_acteur, CONCAT(personne.nom, ' ', personne.prenom) AS nomPrenom FROM personne
+        INNER JOIN acteur ON acteur.id_personne = personne.id_personne");
+        $requeteAllActeurs->execute();
+        
+        $requeteAllRoles = $pdo->prepare("SELECT id_role, personnage FROM role");
+        $requeteAllRoles->execute();
+        if (isset($_POST['submit'])) {
+            var_dump("test");die;
+            $requeteAddCasting = $pdo->prepare("")
+            $requeteAddCasting->execute([]);
+            // header("Location:index.php?action=addCasting");
+        }
+        require 'view/addCasting.php';
+    }
 }
