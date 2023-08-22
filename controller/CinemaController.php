@@ -253,6 +253,7 @@ class CinemaController
             $photoActeur = filter_input(INPUT_POST, 'photoActeur', FILTER_SANITIZE_SPECIAL_CHARS);
             $bioActeur = filter_input(INPUT_POST, 'bioActeur', FILTER_SANITIZE_SPECIAL_CHARS);
 
+        if (isset($_POST['submit'])) {
             $pdo = connect::seConnecter();
             $requeteAddActeur = $pdo->prepare("INSERT INTO personne (nom, prenom, sexe, dateNaissance, photoAR, biographie)
             VALUES (:nomActeur, :prenomActeur, :sexeActeur, :bdayActeur, :photoActeur, :bioActeur)");
@@ -276,15 +277,18 @@ class CinemaController
         require "view/addActeur.php";
     }
 
-    public function addCasting() {
+    public function addCasting()
+    {
         $pdo = connect::seConnecter();
-        $requeteAllFilms = $pdo->prepare("SELECT id_film, titre FROM film");
+        $requeteAllFilms = $pdo->prepare("SELECT id_film, titre, DATE_FORMAT(dateSortie, '%Y') AS date, 
+        duree, synopsis, noteFilm, afficheFilm  FROM film");
         $requeteAllFilms->execute();
-        
-        $requeteAllActeurs = $pdo->prepare("SELECT personne.id_personne, acteur.id_acteur, CONCAT(personne.nom, ' ', personne.prenom) AS nomPrenom FROM personne
+
+        $requeteAllActeurs = $pdo->prepare("SELECT personne.id_personne, acteur.id_acteur, 
+        CONCAT(personne.nom, ' ', personne.prenom) AS nomPrenom FROM personne
         INNER JOIN acteur ON acteur.id_personne = personne.id_personne");
         $requeteAllActeurs->execute();
-        
+
         $requeteAllRoles = $pdo->prepare("SELECT id_role, personnage FROM role");
         $requeteAllRoles->execute();
 
@@ -301,6 +305,19 @@ class CinemaController
                 'role' => $role
             ]);
             header("Location:index.php?action=addCasting");
+
+        if (isset($_POST['submit'])) {
+            var_dump("test");
+            die;
+            $requeteAddFilms = $pdo->prepare("");
+            $requeteAddFilms->execute([]);
+
+            $requeteAddActeurs = $pdo->prepare("");
+            $requeteAddActeurs->execute([]);
+
+            $requeteAddRole = $pdo->prepare("");
+            $requeteAddRole->execute([]);
+            // header("Location:index.php?action=addCasting");
         }
         require 'view/addCasting.php';
     }
@@ -330,13 +347,13 @@ class CinemaController
         header("Location:index;php?action=listFilms");
         // $requeteAjouterGenre = $pdo->prepare("INSERT INTO genrer ");
         // $requeteAjouterGenre->execute([]);
-        }
-
         $requeteAjouterRea = $pdo->prepare("SELECT id_realisateur, CONCAT(personne.nom, ' ', personne.prenom) AS nomPrenom
         FROM realisateur
         INNER JOIN personne ON realisateur.id_personne = personne.id_personne
         ");
         $requeteAjouterRea->execute();
+        }
+
 
 
         require 'view/addFilm.php';
