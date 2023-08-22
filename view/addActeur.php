@@ -3,7 +3,7 @@ ob_start();
 ?>
 
 <main>
-    <h1>Ajout acteur</h1>
+    <h1>Ajouter un acteur</h1>
     <form action="index.php?action=addActeur" method="post">
         <label for="nomActeur">
             Nom :

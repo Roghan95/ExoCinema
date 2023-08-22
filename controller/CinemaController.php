@@ -244,14 +244,15 @@ class CinemaController
     // AJOUT ACTEUR
     public function addActeur() 
     {
-        $nomActeur = filter_input(INPUT_POST, 'nomActeur', FILTER_SANITIZE_SPECIAL_CHARS);
-        $prenomActeur = filter_input(INPUT_POST, 'prenomActeur', FILTER_SANITIZE_SPECIAL_CHARS);
-        $sexeActeur = filter_input(INPUT_POST, 'sexeActeur', FILTER_SANITIZE_SPECIAL_CHARS);
-        $bdayActeur = filter_input(INPUT_POST, 'bdayActeur', FILTER_SANITIZE_SPECIAL_CHARS);
-        $photoActeur = filter_input(INPUT_POST, 'photoActeur', FILTER_SANITIZE_SPECIAL_CHARS);
-        $bioActeur = filter_input(INPUT_POST, 'bioActeur', FILTER_SANITIZE_SPECIAL_CHARS);
-
+        
         if(isset($_POST['submit'])) {
+            $nomActeur = filter_input(INPUT_POST, 'nomActeur', FILTER_SANITIZE_SPECIAL_CHARS);
+            $prenomActeur = filter_input(INPUT_POST, 'prenomActeur', FILTER_SANITIZE_SPECIAL_CHARS);
+            $sexeActeur = filter_input(INPUT_POST, 'sexeActeur', FILTER_SANITIZE_SPECIAL_CHARS);
+            $bdayActeur = filter_input(INPUT_POST, 'bdayActeur', FILTER_SANITIZE_SPECIAL_CHARS);
+            $photoActeur = filter_input(INPUT_POST, 'photoActeur', FILTER_SANITIZE_SPECIAL_CHARS);
+            $bioActeur = filter_input(INPUT_POST, 'bioActeur', FILTER_SANITIZE_SPECIAL_CHARS);
+
             $pdo = connect::seConnecter();
             $requeteAddActeur = $pdo->prepare("INSERT INTO personne (nom, prenom, sexe, dateNaissance, photoAR, biographie)
             VALUES (:nomActeur, :prenomActeur, :sexeActeur, :bdayActeur, :photoActeur, :bioActeur)");
@@ -275,7 +276,6 @@ class CinemaController
         require "view/addActeur.php";
     }
 
-
     public function addCasting() {
         $pdo = connect::seConnecter();
         $requeteAllFilms = $pdo->prepare("SELECT id_film, titre FROM film");
@@ -287,12 +287,58 @@ class CinemaController
         
         $requeteAllRoles = $pdo->prepare("SELECT id_role, personnage FROM role");
         $requeteAllRoles->execute();
-        if (isset($_POST['submit'])) {
-            var_dump("test");die;
-            $requeteAddCasting = $pdo->prepare("")
-            $requeteAddCasting->execute([]);
-            // header("Location:index.php?action=addCasting");
+
+        if (isset($_POST['submit'])) {       
+            $acteur = filter_input(INPUT_POST, 'acteur', FILTER_SANITIZE_SPECIAL_CHARS);
+            $film = filter_input(INPUT_POST, 'film', FILTER_SANITIZE_SPECIAL_CHARS);
+            $role = filter_input(INPUT_POST, 'role', FILTER_SANITIZE_SPECIAL_CHARS);
+            // var_dump($_POST);die;
+            $requeteAddCasting = $pdo->prepare("INSERT INTO jouer (id_acteur, id_film, id_role) 
+            VALUES (:acteur, :film, :role)");
+            $requeteAddCasting->execute([
+                'acteur' => $acteur,
+                'film' => $film,
+                'role' => $role
+            ]);
+            header("Location:index.php?action=addCasting");
         }
         require 'view/addCasting.php';
+    }
+
+
+    public function addFilm() {
+        if(isset($_POST['submit'])) {
+        $titre = filter_input(INPUT_POST, 'titre', FILTER_SANITIZE_SPECIAL_CHARS);
+        $dateSortie = filter_input(INPUT_POST, 'dateSortie', FILTER_SANITIZE_SPECIAL_CHARS);
+        $duree = filter_input(INPUT_POST, 'duree', FILTER_SANITIZE_SPECIAL_CHARS);
+        $synopsis = filter_input(INPUT_POST, 'synopsis', FILTER_SANITIZE_SPECIAL_CHARS);
+        $noteFilm = filter_input(INPUT_POST, 'noteFilm', FILTER_SANITIZE_SPECIAL_CHARS);
+        $afficheFilm = filter_input(INPUT_POST, 'afficheFilm', FILTER_SANITIZE_SPECIAL_CHARS);
+        $pdo = connect::seConnecter();
+
+        $requeteAjouterFilm = $pdo->prepare("INSERT INTO film (titre, dateSortie, duree, synopsis, noteFilm, afficheFilm, id_realisateur) 
+        VALUES (:titre, :dateSortie, :duree, :synopsis, :noteFilm, :afficheFilm, :realisateur)");
+        $requeteAjouterFilm->execute([
+            'titre' => $titre,
+            'dateSortie' => $dateSortie,
+            'duree' => $duree,
+            'synopsis' => $synopsis,
+            'noteFilm' => $noteFilm,
+            'afficheFilm' => $afficheFilm,
+            'realisateur' => $_POST['realisateur']
+        ]);
+        header("Location:index;php?action=listFilms");
+        // $requeteAjouterGenre = $pdo->prepare("INSERT INTO genrer ");
+        // $requeteAjouterGenre->execute([]);
+        }
+
+        $requeteAjouterRea = $pdo->prepare("SELECT id_realisateur, CONCAT(personne.nom, ' ', personne.prenom) AS nomPrenom
+        FROM realisateur
+        INNER JOIN personne ON realisateur.id_personne = personne.id_personne
+        ");
+        $requeteAjouterRea->execute();
+
+
+        require 'view/addFilm.php';
     }
 }
