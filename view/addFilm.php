@@ -51,8 +51,7 @@ ob_start();
         </label>
 
         <label for="id_genre">
-            <select name="id_genre" id="">
-                <option value="" disabled>Genre du film</option>
+            <select name="id_genre[]" id="id_genre" multiple>
                 <?php foreach($requeteAjouterGenre->fetchAll() as $genre) { ?>
                 <option value="<?= $genre['id_genre'] ?>"><?= $genre['nom'] ?></option>
                 <?php } ?>

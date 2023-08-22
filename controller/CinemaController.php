@@ -319,7 +319,8 @@ class CinemaController
         $afficheFilm = filter_input(INPUT_POST, 'afficheFilm', FILTER_SANITIZE_SPECIAL_CHARS);
         $realisateur = filter_input(INPUT_POST, 'realisateur', FILTER_SANITIZE_SPECIAL_CHARS);
 
-        $requeteAjouterFilm = $pdo->prepare("INSERT INTO film (titre, dateSortie, duree, synopsis, noteFilm, afficheFilm, id_realisateur) 
+        $requeteAjouterFilm = $pdo->prepare("INSERT INTO film 
+        (titre, dateSortie, duree, synopsis, noteFilm, afficheFilm, id_realisateur) 
         VALUES (:titre, :dateSortie, :duree, :synopsis, :noteFilm, :afficheFilm, :realisateur)");
         $requeteAjouterFilm->execute([
             'titre' => $titre,
@@ -330,19 +331,30 @@ class CinemaController
             'afficheFilm' => $afficheFilm,
             'realisateur' => $realisateur
         ]);
-        die;
-        header("Location:index.php?action=addCasting");
+
+        $newIdFilm = $pdo->lastInsertId();
+
+        foreach($_POST['id_genre'] as $genre) {
+            $requeteAttribuerGenres = $pdo->prepare("INSERT INTO genrer (id_film, id_genre) 
+            VALUES (:id_film, :id_genre)");
+            $requeteAttribuerGenres->execute([
+                'id_film' => $newIdFilm,
+                'id_genre' => $genre
+            ]);
+        }
+        header("Location:index.php?action=addCasting&id=" . $newIdFilm);
+        exit();
     }
-        $requeteAjouterGenre = $pdo->prepare("SELECT id_genre, nom FROM genre");
-        $requeteAjouterGenre->execute();
+    
+    $requeteAjouterGenre = $pdo->prepare("SELECT id_genre, nom FROM genre");
+    $requeteAjouterGenre->execute();
 
-        $requeteAjouterRea = $pdo->prepare("SELECT id_realisateur, 
-        CONCAT(personne.nom, ' ', personne.prenom) AS nomPrenom
-        FROM realisateur
-        INNER JOIN personne ON realisateur.id_personne = personne.id_personne
-        ");
-        $requeteAjouterRea->execute();
-
+    $requeteAjouterRea = $pdo->prepare("SELECT id_realisateur, 
+    CONCAT(personne.nom, ' ', personne.prenom) AS nomPrenom
+    FROM realisateur
+    INNER JOIN personne ON realisateur.id_personne = personne.id_personne
+    ");
+    $requeteAjouterRea->execute();
 
         require 'view/addFilm.php';
     }
