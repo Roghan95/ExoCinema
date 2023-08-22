@@ -41,6 +41,24 @@ ob_start();
             <input type="text" name="afficheFilm" required>
         </label>
 
+        <label for="id_realisateur">
+            <select name="realisateur" id="">
+                <option value="" disabled>Sélectionnez un réalisateur :</option>
+                <?php foreach ($requeteAjouterRea->fetchAll() as $rea){ ?>
+                <option value="<?= $rea['id_realisateur'] ?>"><?= $rea['nomPrenom'] ?></option>
+                <?php } ?>
+            </select>
+        </label>
+
+        <label for="id_genre">
+            <select name="id_genre" id="">
+                <option value="" disabled>Genre du film</option>
+                <?php foreach($requeteAjouterGenre->fetchAll() as $genre) { ?>
+                <option value="<?= $genre['id_genre'] ?>"><?= $genre['nom'] ?></option>
+                <?php } ?>
+            </select>
+        </label>
+
         <input class="btn-envoyer" type="submit" name="submit">
     </form>
 </main>
