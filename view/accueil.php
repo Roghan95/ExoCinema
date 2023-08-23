@@ -12,6 +12,10 @@ ob_start();
         <p>Année : <?= $film["annee"] ?></p>
         <p>Durée : <?= $film["duree"] ?></p>
         <p>Note : <?= $film["noteFilm"] ?></p>
+        <p><?php foreach ($requeteAfficherGenre->fetchAll() as $genre) { ?>
+                <?= $genre['nomGenre'] ?>
+            <?php } ?>
+        </p>
 
     <?php } ?>
 
@@ -20,5 +24,5 @@ ob_start();
 <?php
 $titre = "Liste des genres";
 $content = ob_get_clean();
-require "view/template.php"
+require "view/template.php";
 ?>

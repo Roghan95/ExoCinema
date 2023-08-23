@@ -7,13 +7,16 @@ use Model\Connect;
 class CinemaController
 {
     // Accueil
-    public function accueil()
+    public function accueil($id)
     {
         $pdo = Connect::seConnecter();
-        $requete = $pdo->prepare("SELECT titre, YEAR(dateSortie) AS annee, CONCAT(FLOOR(duree / 60), 'h', LPAD(MOD(duree, 60), 2, '0')) AS duree, noteFilm, id_film, afficheFilm
+        $requete = $pdo->prepare("SELECT id_film, titre, YEAR(dateSortie) AS annee, genre.id_genre, genre.nom AS nomGenre,
+            CONCAT(FLOOR(duree / 60), 'h', LPAD(MOD(duree, 60), 2, '0')) AS duree, noteFilm, id_film, afficheFilm
             FROM film
+            INNER JOIN genrer ON film.id_film = genrer.id_genre
             ORDER BY YEAR(dateSortie) DESC
-            LIMIT 3");
+            LIMIT 4
+            ");
         $requete->execute();
         require "view/accueil.php";
     }
@@ -190,6 +193,8 @@ class CinemaController
             header("Location:index.php?action=listGenre&id=" . $newId);
             die;
         }
+
+
         require 'view/addGenre.php';
     }
 

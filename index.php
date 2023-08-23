@@ -13,7 +13,7 @@ if (isset($_GET["action"])) {
     switch ($_GET["action"]) {
 
         case "accueil":
-            $ctrlCinema->accueil();
+            $ctrlCinema->accueil($id);
             break;
 
         case "listFilms":
@@ -75,7 +75,7 @@ if (isset($_GET["action"])) {
         case "addActeur":
             $ctrlCinema->addActeur();
             break;
-        
+
         case "addCasting":
             $ctrlCinema->addCasting();
             break;
