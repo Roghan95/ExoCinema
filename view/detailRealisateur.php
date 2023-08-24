@@ -12,8 +12,13 @@ ob_start();
     <p> Né(e) le : <?= $realisateur["bday"] ?></p>
     <p class="synopsis">Biographie :</p>
     <p><?= $realisateur["biographie"] ?></p>
-
-
+    <h2>Les films du réalisateur</h2>
+    <?php foreach($requeteFilmsRea->fetchAll() as $filmsRea) { ?>
+        <a href="index.php?action=detailFilm&id=<?= $filmsRea['id_film'] ?>">
+            <img src="<?= $filmsRea['afficheFilm'] ?>" alt="">
+            <p><?= $filmsRea['titre'] ?></p>
+        </a>
+    <?php } ?>
 </main>
 
 <?php
