@@ -1,20 +1,22 @@
 <?php
 ob_start();
-$film = $requeteDetailFilm->fetchAll();
+$film = $requeteDetailFilm->fetch();
+$casting = $requeteCasting->fetchAll();
+
 ?>
 
 
 <main>
-    <h1 class="titreDePage"><?= $titreSecondaire = "DETAIL FILM"; ?></h1>
+    <h1 class=""><?= $titreSecondaire = "Détail Film"; ?></h1>
     <div class="card">
-        <h2><?= $film[0]["titre"]; ?></h2>
-        <img class="afficheFilm" src="<?= $film[0]["affiche"] ?>">
+        <h2><?= $film["titre"]; ?></h2>
+        <img class="afficheFilm" src="<?= $film["affiche"] ?>">
         <div class="card-info">
-            <p>Realisateur : <a href="index.php?action=detailRealisateur&id=<?= $film[0]["id_realisateur"] ?>"><?= $film[0]["nomPrenom_realisateur"] ?></a></p>
+            <p>Realisateur : <a href="index.php?action=detailRealisateur&id=<?= $film["id_realisateur"] ?>"><?= $film["nomPrenom_realisateur"] ?></a></p>
             <p> Avec :
-                <?php foreach ($film as $acteur) { ?>
+                <?php foreach ($casting as $acteur) { ?>
                     <a href="index.php?action=detailActeur&id=<?= $acteur["id_acteur"] ?>">
-                        <?= $acteur["nomPrenom_acteur"] ?>
+                        <?= $acteur["nomPrenom"] ?>
                     </a>, dans le rôle de
                     <a href="index.php?action=detailRole&id= <?= $acteur["id_role"] ?>">
                         <?= $acteur["rolePersonnage"] ?><br>
@@ -22,15 +24,15 @@ $film = $requeteDetailFilm->fetchAll();
                 <?php } ?>
             </p>
 
-            <p>Durée : <?= $film[0]["dureeFilm"] ?></p>
-            <p>Date de sortie : <?= $film[0]["annee"] ?></p>
+            <p>Durée : <?= $film["dureeFilm"] ?></p>
+            <p>Date de sortie : <?= $film["annee"] ?></p>
 
             <?php foreach ($requeteDetailGenre->fetchAll() as $genre) { ?>
                 <a href="index.php?action=infoGenre&id=<?= $genre["id_genre"] ?>"><?= $genre["nomGenre"] . "," ?></a>
             <?php } ?>
 
             <div class="synopsis">SYNOPSIS
-                <p><?= $film[0]["synopsis"] ?></p>
+                <p><?= $film["synopsis"] ?></p>
             </div>
         </div>
     </div>

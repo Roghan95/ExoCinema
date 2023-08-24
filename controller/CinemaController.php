@@ -7,13 +7,12 @@ use Model\Connect;
 class CinemaController
 {
     // Accueil
-    public function accueil($id)
+    public function accueil()
     {
         $pdo = Connect::seConnecter();
-        $requete = $pdo->prepare("SELECT id_film, titre, YEAR(dateSortie) AS annee, genre.id_genre, genre.nom AS nomGenre,
+        $requete = $pdo->prepare("SELECT id_film, titre, YEAR(dateSortie) AS annee,
             CONCAT(FLOOR(duree / 60), 'h', LPAD(MOD(duree, 60), 2, '0')) AS duree, noteFilm, id_film, afficheFilm
             FROM film
-            INNER JOIN genrer ON film.id_film = genrer.id_genre
             ORDER BY YEAR(dateSortie) DESC
             LIMIT 4
             ");
@@ -39,28 +38,18 @@ class CinemaController
     {
         $pdo = connect::seConnecter();
         $requeteDetailFilm = $pdo->prepare("
-        SELECT 
-        film.afficheFilm AS affiche, 
-        film.titre AS titre, 
+        SELECT film.afficheFilm AS affiche, film.titre AS titre, 
         DATE_FORMAT(film.dateSortie, '%d %M %Y') AS annee, 
         film.synopsis AS synopsis,
-        CONCAT(film.duree DIV 60,'h', film.duree MOD 60) AS dureeFilm,
+        TIME_FORMAT(SEC_TO_TIME(film.duree * 60, '%H:%i)) AS dureeFilm,
         noteFilm AS note, 
-        CONCAT(personne.prenom, ' ', personne.nom) AS nomPrenom_acteur,
         film.id_realisateur AS id_realisateur,
-        acteur.id_acteur AS id_acteur,
-        CONCAT(p.prenom, ' ', p.nom) AS nomPrenom_realisateur,
-        role.personnage AS rolePersonnage,
-        role.id_role
+        CONCAT(p.prenom, ' ', p.nom) AS nomPrenom_realisateur
         FROM film
-        INNER JOIN jouer ON jouer.id_film = film.id_film
-        INNER JOIN acteur ON acteur.id_acteur = jouer.id_acteur
-        INNER JOIN personne ON personne.id_personne = acteur.id_personne
-        INNER JOIN role ON role.id_role = jouer.id_role
         INNER JOIN realisateur ON realisateur.id_realisateur = film.id_realisateur
         INNER JOIN personne AS p ON p.id_personne = realisateur.id_personne
         WHERE film.id_film = :id
-         ");
+        ");
         $requeteDetailFilm->execute(["id" => $id]);
 
         // AFFICHE LE GENRE D'UN FILM
@@ -71,6 +60,19 @@ class CinemaController
         INNER JOIN genrer ON genre.id_genre = genrer.id_genre
         WHERE genrer.id_film = :id;");
         $requeteDetailGenre->execute(["id" => $id]);
+
+        // AFFICHE LE CASTING D'UN FILM
+        $requeteCasting = $pdo->prepare("
+        SELECT acteur.id_acteur, role.id_role, role.personnage AS rolePersonnage, 
+        CONCAT(personne.nom, ' ', personne.prenom) AS nomPrenom
+        FROM acteur
+        INNER JOIN personne ON personne.id_personne = acteur.id_personne
+        INNER JOIN jouer ON acteur.id_acteur = jouer.id_acteur
+        INNER JOIN film ON film.id_film = jouer.id_film
+        INNER JOIN role ON role.id_role = jouer.id_role
+        WHERE film.id_film = :id");
+        $requeteCasting->execute(["id" => $id]);
+
         require "view/detailFilm.php";
     }
 
@@ -97,6 +99,15 @@ class CinemaController
         INNER JOIN personne ON personne.id_personne = acteur.id_personne
         WHERE acteur.id_acteur = :id");
         $requeteActeur->execute(["id" => $id]);
+
+        $requeteFilmsActeur = $pdo->prepare("
+        SELECT jouer.id_acteur, jouer.id_film, jouer.id_role, film.titre AS titre, 
+        film.dateSortie, film.afficheFilm AS afficheFilm, role.id_role, role.personnage AS personnage
+        FROM jouer
+        INNER JOIN film ON jouer.id_film = film.id_film
+        INNER JOIN role ON jouer.id_role = role.id_role
+        WHERE jouer.id_acteur = :id");
+        $requeteFilmsActeur->execute(["id" => $id]);
         require "view/detailActeur.php";
     }
 
@@ -184,7 +195,7 @@ class CinemaController
     public function addGenre()
     {
         $nomGenre = filter_input(INPUT_POST, 'nomGenre', FILTER_SANITIZE_SPECIAL_CHARS);
-        if (isset($_POST['submit'])) {
+        if ($nomGenre && isset($_POST['submit'])) {
             $pdo = connect::seConnecter();
             $requeteAjoutGenre = $pdo->prepare("INSERT INTO genre (nom)
             VALUES (:nomGenre)");
