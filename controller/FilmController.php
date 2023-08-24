@@ -22,7 +22,7 @@ class FilmController
         require "view/accueil.php";
     }
 
-    
+
 
     // LISTE FILMS
     public function listFilms()
@@ -79,13 +79,13 @@ class FilmController
         require "view/detailFilm.php";
     }
 
-
+    // Ajout d'un film (avec son réalisateur, genre, l'affiche, synopsis... )
     public function addFilm()
     {
         $pdo = connect::seConnecter();
 
         if (isset($_POST['submit'])) {
-
+            // Filtrage des différents input du formulaire
             $titre = filter_input(INPUT_POST, 'titre', FILTER_SANITIZE_SPECIAL_CHARS);
             $dateSortie = filter_input(INPUT_POST, 'dateSortie', FILTER_SANITIZE_SPECIAL_CHARS);
             $duree = filter_input(INPUT_POST, 'duree', FILTER_SANITIZE_SPECIAL_CHARS);
@@ -120,7 +120,7 @@ class FilmController
             header("Location:index.php?action=addCasting&id=" . $newIdFilm);
             exit();
         }
-
+        // Ajouter un genre au film (a sélectionner dans une liste de genre)
         $requeteAjouterGenre = $pdo->prepare("SELECT id_genre, nom FROM genre");
         $requeteAjouterGenre->execute();
 
@@ -134,6 +134,7 @@ class FilmController
         require 'view/addFilm.php';
     }
 
+    // Ajout d'un casting de film 
     public function addCasting()
     {
         $pdo = connect::seConnecter();
@@ -147,10 +148,12 @@ class FilmController
         $requeteAllRoles = $pdo->prepare("SELECT id_role, personnage FROM role");
         $requeteAllRoles->execute();
 
+        // Filtrage des différents champs
+        $acteur = filter_input(INPUT_POST, 'acteur', FILTER_SANITIZE_SPECIAL_CHARS);
+        $film = filter_input(INPUT_POST, 'film', FILTER_SANITIZE_SPECIAL_CHARS);
+        $role = filter_input(INPUT_POST, 'role', FILTER_SANITIZE_SPECIAL_CHARS);
+        // Si submit alors ajouter un acteur, film et role en filtrant les champs
         if (isset($_POST['submit'])) {
-            $acteur = filter_input(INPUT_POST, 'acteur', FILTER_SANITIZE_SPECIAL_CHARS);
-            $film = filter_input(INPUT_POST, 'film', FILTER_SANITIZE_SPECIAL_CHARS);
-            $role = filter_input(INPUT_POST, 'role', FILTER_SANITIZE_SPECIAL_CHARS);
             // var_dump($_POST);die;
             $requeteAddCasting = $pdo->prepare("INSERT INTO jouer (id_acteur, id_film, id_role) 
             VALUES (:acteur, :film, :role)");
@@ -163,7 +166,4 @@ class FilmController
         }
         require 'view/addCasting.php';
     }
-
 }
-
-
