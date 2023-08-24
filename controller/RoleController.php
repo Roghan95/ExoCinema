@@ -10,8 +10,9 @@ class RoleController
     public function listRole()
     {
         $pdo = connect::seConnecter();
-        $requeteListRole = $pdo->query("
-     SELECT * FROM role");
+        $requeteListRole = $pdo->prepare("
+        SELECT * FROM role");
+        $requeteListRole->execute();
         require "view/listRole.php";
     }
 
@@ -35,15 +36,17 @@ class RoleController
     // AJOUT ROLE
     public function addRole()
     {
-        $nomRole = filter_input(INPUT_POST, 'nomRole', FILTER_SANITIZE_SPECIAL_CHARS);
-
         if (isset($_POST['submit'])) {
-            $pdo = connect::seConnecter();
-            $requeteAddRole = $pdo->prepare("INSERT INTO role (personnage)
-             VALUES (:nomRole)");
-            $requeteAddRole->execute(['nomRole' => $nomRole]);
-            $newId = $pdo->lastInsertId();
-            header("Location:index.php?action=listRole&id=" . $newId);
+            $nomRole = filter_input(INPUT_POST, 'nomRole', FILTER_SANITIZE_SPECIAL_CHARS);
+            if ($nomRole) {
+                $pdo = connect::seConnecter();
+                $requeteAddRole = $pdo->prepare("
+                INSERT INTO role (personnage)
+                VALUES (:nomRole)");
+                $requeteAddRole->execute(['nomRole' => $nomRole]);
+                $newId = $pdo->lastInsertId();
+                header("Location:index.php?action=listRole&id=" . $newId);
+            }
         }
         require 'view/addRole.php';
     }

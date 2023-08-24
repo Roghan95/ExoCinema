@@ -51,7 +51,7 @@ class ActeurController {
             $bdayActeur = filter_input(INPUT_POST, 'bdayActeur', FILTER_SANITIZE_SPECIAL_CHARS);
             $photoActeur = filter_input(INPUT_POST, 'photoActeur', FILTER_SANITIZE_SPECIAL_CHARS);
             $bioActeur = filter_input(INPUT_POST, 'bioActeur', FILTER_SANITIZE_SPECIAL_CHARS);
-
+            if ($nomActeur && $prenomActeur && $sexeActeur && $bdayActeur && $photoActeur && $bioActeur) {
             $pdo = connect::seConnecter();
             $requeteAddActeur = $pdo->prepare("INSERT INTO personne (nom, prenom, sexe, dateNaissance, photoAR, biographie)
             VALUES (:nomActeur, :prenomActeur, :sexeActeur, :bdayActeur, :photoActeur, :bioActeur)");
@@ -71,7 +71,9 @@ class ActeurController {
                 'idPersonne' => $newIdPersonne
             ]);
             header("Location:index.php?action=listActeurs&id=" . $newIdPersonne);
+            exit();
         }
+    }
         require "view/addActeur.php";
     }
 

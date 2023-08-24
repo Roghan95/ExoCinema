@@ -38,15 +38,17 @@ class GenreController
     // AJOUT GENRE
     public function addGenre()
     {
-        $nomGenre = filter_input(INPUT_POST, 'nomGenre', FILTER_SANITIZE_SPECIAL_CHARS);
-        if ($nomGenre && isset($_POST['submit'])) {
+        if (isset($_POST['submit'])) {
+            $nomGenre = filter_input(INPUT_POST, 'nomGenre', FILTER_SANITIZE_SPECIAL_CHARS);
+            if ($nomGenre) {
             $pdo = connect::seConnecter();
             $requeteAjoutGenre = $pdo->prepare("INSERT INTO genre (nom)
-                VALUES (:nomGenre)");
+            VALUES (:nomGenre)");
             $requeteAjoutGenre->execute(['nomGenre' => $nomGenre]);
             $newId = $pdo->lastInsertId();
             header("Location:index.php?action=listGenre&id=" . $newId);
-            die;
+            exit();
+        }
         }
 
 

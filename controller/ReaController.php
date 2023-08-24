@@ -6,15 +6,15 @@ use Model\Connect;
 
 class ReaController
 {
-
     // LIST REALISATEUR
     public function listRealisateur()
     {
         $pdo = connect::seConnecter();
-        $requeteRealisateur = $pdo->query("
+        $requeteRealisateur = $pdo->prepare("
         SELECT id_realisateur, CONCAT(personne.prenom, ' ', personne.nom) AS  nomPrenom
         FROM realisateur
         INNER JOIN personne ON realisateur.id_personne = personne.id_personne");
+        $requeteRealisateur->execute();
         require "view/listRealisateur.php";
     }
 
@@ -54,6 +54,7 @@ class ReaController
         $bioRea = filter_input(INPUT_POST, 'bioRea', FILTER_SANITIZE_SPECIAL_CHARS);
 
         if (isset($_POST['submit'])) {
+            if ($nomRea && $prenomRea && $sexeRea && $bdayRea && $photoRea && $bioRea) {
             $pdo = connect::seConnecter();
             $requeteAddRea1 = $pdo->prepare("INSERT INTO personne (nom, prenom, sexe, dateNaissance, photoAR, biographie)
             VALUES (:nomRea, :prenomRea, :sexeRea, :bdayRea, :photoRea, :bioRea)");
@@ -73,6 +74,8 @@ class ReaController
                 'idPersonne' => $newIdPersonne
             ]);
             header("Location:index.php?action=listRealisateur&id=" . $newIdPersonne);
+            exit();
+        }
         }
         require "view/addRea.php";
     }
