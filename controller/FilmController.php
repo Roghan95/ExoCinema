@@ -17,7 +17,7 @@ class FilmController
             film.noteFilm, id_film, film.afficheFilm
             FROM film
             ORDER BY YEAR(dateSortie) DESC
-            LIMIT 4");
+            LIMIT 1");
         $requete->execute();
         require "view/accueil.php";
     }
