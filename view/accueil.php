@@ -12,11 +12,6 @@ ob_start();
         <p>Année : <?= $film["annee"] ?></p>
         <p>Durée : <?= $film["duree"] ?></p>
         <p>Note : <?= $film["noteFilm"] ?></p>
-        <p><?php foreach ($requeteAfficherGenre->fetchAll() as $genre) { ?>
-                <?= $genre['nomGenre'] ?>
-            <?php } ?>
-        </p>
-
     <?php } ?>
 
 </main>

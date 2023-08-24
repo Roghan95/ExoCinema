@@ -2,7 +2,6 @@
 ob_start();
 $film = $requeteDetailFilm->fetch();
 $casting = $requeteCasting->fetchAll();
-
 ?>
 
 

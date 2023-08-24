@@ -10,12 +10,13 @@ class CinemaController
     public function accueil()
     {
         $pdo = Connect::seConnecter();
-        $requete = $pdo->prepare("SELECT id_film, titre, YEAR(dateSortie) AS annee,
-            CONCAT(FLOOR(duree / 60), 'h', LPAD(MOD(duree, 60), 2, '0')) AS duree, noteFilm, id_film, afficheFilm
-            FROM film
-            ORDER BY YEAR(dateSortie) DESC
-            LIMIT 4
-            ");
+        $requete = $pdo->prepare("
+        SELECT id_film, titre, YEAR(dateSortie) AS annee,
+        TIME_FORMAT(SEC_TO_TIME(film.duree * 60), '%H:%i') AS duree,
+        film.noteFilm, id_film, film.afficheFilm
+        FROM film
+        ORDER BY YEAR(dateSortie) DESC
+        LIMIT 4");
         $requete->execute();
         require "view/accueil.php";
     }
@@ -25,7 +26,7 @@ class CinemaController
     {
         $pdo = connect::seConnecter();
         $requeteFilms = $pdo->prepare("
-        SELECT id_film, titre, afficheFilm, DATE_FORMAT(dateSortie, '%Y') AS dateSortie
+        SELECT id_film, titre, afficheFilm, YEAR(dateSortie) AS dateSortie
         FROM film
         INNER JOIN realisateur ON realisateur.id_realisateur = film.id_realisateur
         INNER JOIN personne ON personne.id_personne = realisateur.id_personne");
@@ -41,7 +42,7 @@ class CinemaController
         SELECT film.afficheFilm AS affiche, film.titre AS titre, 
         DATE_FORMAT(film.dateSortie, '%d %M %Y') AS annee, 
         film.synopsis AS synopsis,
-        TIME_FORMAT(SEC_TO_TIME(film.duree * 60, '%H:%i)) AS dureeFilm,
+        TIME_FORMAT(SEC_TO_TIME(film.duree * 60), '%H:%i') AS dureeFilm,
         noteFilm AS note, 
         film.id_realisateur AS id_realisateur,
         CONCAT(p.prenom, ' ', p.nom) AS nomPrenom_realisateur
@@ -187,9 +188,12 @@ class CinemaController
         INNER JOIN personne ON personne.id_personne = realisateur.id_personne
         WHERE realisateur.id_realisateur = :id");
         $requeteDetailRealisateur->execute(["id" => $id]);
+
+        $requeteFilmsRea = $pdo->prepare("SELECT film.id_realisateur AS rea,   ");
+        $requeteFilmsRea->execute(["id" => $id]);
         require "view/detailRealisateur.php";
     }
-    // ------------ AJOUT --------------------------------------
+    // -------------------------------- AJOUT --------------------------------------
 
     // AJOUT GENRE
     public function addGenre()
