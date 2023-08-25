@@ -3,6 +3,7 @@ ob_start();
 ?>
 
 <main>
+    <section>
     <div class="home-title">
         <h1>NEW ITEMS OF THIS SEASON</h1>
     </div>
@@ -18,6 +19,7 @@ ob_start();
             </div>
         <?php } ?>
     </div>
+    </section>
 </main>
 
 <?php

@@ -78,9 +78,6 @@ class FilmController
 
         require "view/detailFilm.php";
     }
-
-    
-    
     
     // Ajout d'un film (avec son réalisateur, genre, l'affiche, synopsis... )
     public function addFilm()

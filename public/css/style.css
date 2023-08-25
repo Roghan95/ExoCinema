@@ -131,6 +131,10 @@ header {
     margin-bottom: 20px;
 }
 
+span {
+    color: red;
+}
+
 /* =================== FIN HEADER & BURGER MENU =================== */
 
 main {
@@ -148,7 +152,6 @@ main {
 .synopsis {
     font-size: 30px;
 }
-
-
 /* ============================= DEBUT MAIN  ============================= */
+
 
